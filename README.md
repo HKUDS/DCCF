@@ -3,7 +3,7 @@
 This is the PyTorch implementation by <a href='https://github.com/Re-bin'>@Re-bin</a> for DCCF model proposed in this paper:
 
  >**Disentangled Contrastive Collaborative Filtering**  
- > Xubin Ren, Lianghao Xia, Jiashu Zhao, Dawei Yin, Chao Huang* and Long Xia\
+ > Xubin Ren, Lianghao Xia, Jiashu Zhao, Dawei Yin, Chao Huang*\
  >*SIGIR 2023*
 
 \* denotes corresponding author
