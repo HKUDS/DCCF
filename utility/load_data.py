@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 from time import time
 from tqdm import tqdm
@@ -12,61 +13,37 @@ class Data(object):
         self.train_num = args.train_num
         self.sample_num = args.sample_num
 
-        train_file = self.path + '/train.txt'
-        test_file = self.path + '/test.txt'
+        train_file = self.path + '/train.pkl'
+        test_file = self.path + '/test.pkl'
+        with open(train_file, 'rb') as f:
+            train_mat = pickle.load(f)
+        with open(test_file, 'rb') as f:
+            test_mat = pickle.load(f)
 
         # get number of users and items
-        self.n_users, self.n_items = 0, 0
-        self.n_train, self.n_test = 0, 0
-
-        self.exist_users = []
-
-        with open(train_file) as f:
-            for l in f.readlines():
-                if len(l) > 0:
-                    l = l.strip('\n').split(' ')
-                    items = [int(i) for i in l[1:]]
-                    uid = int(l[0])
-                    self.exist_users.append(uid)
-                    self.n_items = max(self.n_items, max(items))
-                    self.n_users = max(self.n_users, uid)
-                    self.n_train += len(items)
-
-        with open(test_file) as f:
-            for l in f.readlines():
-                if len(l) > 0:
-                    l = l.strip('\n')
-                    items = [int(i) for i in l.split(' ')[1:]]
-
-                    self.n_items = max(self.n_items, max(items))
-                    self.n_test += len(items)
-
-        self.n_items += 1
-        self.n_users += 1
+        self.n_users, self.n_items = train_mat.shape[0], train_mat.shape[1]
+        self.n_train, self.n_test = len(train_mat.row), len(test_mat.row)
 
         self.print_statistics()
 
-        self.R = sp.dok_matrix((self.n_users, self.n_items), dtype=np.float32)
+        self.R = train_mat.todok()
         self.train_items, self.test_set = {}, {}
-        with open(train_file) as f_train:
-            with open(test_file) as f_test:
-                for l in f_train.readlines():
-                    if len(l) > 0:
-                        l = l.strip('\n')
-                        items = [int(i) for i in l.split(' ')]
-                        uid, train_items = items[0], items[1:]
-
-                        for i in train_items:
-                            self.R[uid, i] = 1.
-                        self.train_items[uid] = train_items
-
-                for l in f_test.readlines():
-                    if len(l) > 0:
-                        l = l.strip('\n')
-                        items = [int(i) for i in l.split(' ')]
-                        uid, test_items = items[0], items[1:]
-
-                        self.test_set[uid] = test_items
+        train_uid, train_iid = train_mat.row, train_mat.col
+        for i in range(len(train_uid)):
+            uid = train_uid[i]
+            iid = train_iid[i]
+            if uid not in self.train_items:
+                self.train_items[uid] = [iid]
+            else:
+                self.train_items[uid].append(iid)
+        test_uid, test_iid = test_mat.row, test_mat.col
+        for i in range(len(test_uid)):
+            uid = test_uid[i]
+            iid = test_iid[i]
+            if uid not in self.test_set:
+                self.test_set[uid] = [iid]
+            else:
+                self.test_set[uid].append(iid)
 
     def get_adj_mat(self):
         adj_mat = self.create_adj_mat()
@@ -92,7 +69,7 @@ class Data(object):
             pos_item = pos_for_user[pos_index]
             while True:
                 neg_item = np.random.randint(0, self.n_items)
-                if neg_item in pos_for_user:
+                if self.R[user, neg_item] == 1:
                     continue
                 else:
                     break
