@@ -50,3 +50,13 @@ We train DCCF with a fixed number of epochs and save the parameters obtained aft
  **For advanced usage of arguments, run the code with --help argument.**
 
 **Thanks for your interest in our work**
+
+## Reference
+```
+@inproceedings{ren2023disentangled,
+  title={Disentangled contrastive collaborative filtering},
+  author={Ren, Xubin and Xia, Lianghao and Zhao, Jiashu and Yin, Dawei and Huang, Chao},
+  booktitle={Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR)},
+  year={2023}
+}
+```
