@@ -21,7 +21,7 @@ The codes are written in Python 3.8.13 with the following dependencies.
 - pytorch == 1.11.0 (GPU version)
 - torch-scatter == 2.0.9
 - torch-sparse == 0.6.14
-- scipy == 1.7.3
+- scipy == 1.9.1
 
 ##  Dataset
 
