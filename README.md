@@ -52,6 +52,7 @@ We train DCCF with a fixed number of epochs and save the parameters obtained aft
 **Thanks for your interest in our work**
 
 ## Reference
+If you find this work is helpful to your research, please consider citing our paper:
 ```
 @inproceedings{ren2023disentangled,
   title={Disentangled Contrastive Collaborative Filtering},
