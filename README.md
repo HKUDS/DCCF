@@ -56,7 +56,8 @@ We train DCCF with a fixed number of epochs and save the parameters obtained aft
 @inproceedings{ren2023disentangled,
   title={Disentangled Contrastive Collaborative Filtering},
   author={Ren, Xubin and Xia, Lianghao and Zhao, Jiashu and Yin, Dawei and Huang, Chao},
-  booktitle={Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR)},
+  booktitle={Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  pages={1137–1146},
   year={2023}
 }
 ```
