@@ -4,7 +4,6 @@ import torch_sparse
 import torch.nn as nn
 import scipy.sparse as sp
 import torch.nn.functional as F
-from reckit import randint_choice
 
 class DCCF(nn.Module):
     def __init__(self, data_config, args):

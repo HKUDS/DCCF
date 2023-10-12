@@ -13,12 +13,27 @@ class Data(object):
         self.train_num = args.train_num
         self.sample_num = args.sample_num
 
-        train_file = self.path + '/train.pkl'
-        test_file = self.path + '/test.pkl'
-        with open(train_file, 'rb') as f:
-            train_mat = pickle.load(f)
-        with open(test_file, 'rb') as f:
-            test_mat = pickle.load(f)
+        try:
+            train_file = self.path + '/train.pkl'
+            test_file = self.path + '/test.pkl'
+            with open(train_file, 'rb') as f:
+                train_mat = pickle.load(f)
+            with open(test_file, 'rb') as f:
+                test_mat = pickle.load(f)
+        except Exception as e:
+            print("Try an alternative way of reading the data.")
+            train_file = self.path + '/train_index.pkl'
+            test_file = self.path + '/test_index.pkl'
+            with open(train_file, 'rb') as f:
+                train_index = pickle.load(f)
+            with open(test_file, 'rb') as f:
+                test_index = pickle.load(f)
+            train_row, train_col = train_index[0], train_index[1]
+            n_user = max(train_row) + 1
+            n_item = max(train_col) + 1
+            train_mat = sp.coo_matrix((np.ones(len(train_row)), (train_row, train_col)), shape=[n_user, n_item])
+            test_row, test_col = test_index[0], test_index[1]
+            test_mat = sp.coo_matrix((np.ones(len(test_row)), (test_row, test_col)), shape=[n_user, n_item])
 
         # get number of users and items
         self.n_users, self.n_items = train_mat.shape[0], train_mat.shape[1]
