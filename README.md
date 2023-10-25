@@ -49,7 +49,7 @@ We train DCCF with a fixed number of epochs and save the parameters obtained aft
 
  **For advanced usage of arguments, run the code with --help argument.**
 
-**Thanks for your interest in our work**
+**Thanks for your interest in our work.**
 
 ## Reference
 If you find this work is helpful to your research, please consider citing our paper:
